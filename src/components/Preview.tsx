@@ -12,8 +12,10 @@ import {
   Paper,
   TextField,
 } from "@mui/material";
-import { styled } from "@mui/system";
+import * as renderer from "@react-pdf/renderer";
+import Render2 from "./Render2";
 
+import { styled } from "@mui/system";
 const CustomTextField = styled(TextField)({
   "& .MuiInput-underline:after": {
     borderBottomColor: "transparent",
@@ -31,6 +33,7 @@ const CustomTextField = styled(TextField)({
   },
 });
 interface PreviewProps {
+  selectedCurrency: string;
   //header
   selectedFile: any;
   invoiceTitle: string;
@@ -56,7 +59,7 @@ interface PreviewProps {
   Invoicedate: string;
   Invoicedue: string;
   Terms: string;
-
+  trigger: boolean;
   //table
   rows: Array<{
     id: number;
@@ -75,6 +78,7 @@ interface PreviewProps {
 
 const Preview: React.FC<PreviewProps> = ({
   rows,
+  trigger,
   selectedFile,
   invoiceTitle,
   companyName,
@@ -100,6 +104,7 @@ const Preview: React.FC<PreviewProps> = ({
   FooterNumber,
   FooterEmail,
   FooterWebsite,
+  selectedCurrency,
 }) => {
   // Function to calculate total amount
   const calculateTotal = () => {
@@ -122,6 +127,7 @@ const Preview: React.FC<PreviewProps> = ({
         }}
       >
         {/* Header */}
+
         <Stack
           direction="row"
           justifyContent="space-between"
@@ -160,7 +166,11 @@ const Preview: React.FC<PreviewProps> = ({
             <Typography
               fontWeight={"bold"}
               fontSize={"17px"}
-              sx={{ padding: "0px 10px", color: "grey", textAlign: "right" }}
+              sx={{
+                padding: "0px 10px",
+                color: "grey",
+                textAlign: "right",
+              }}
               variant={"subtitle2"}
             >
               {Trade}
@@ -237,8 +247,9 @@ const Preview: React.FC<PreviewProps> = ({
               {website}
             </Typography>
           </Box>
+          <Divider></Divider>
         </Stack>
-        <Divider></Divider>
+
         {/* table header content */}
         <Stack
           direction="row"
@@ -320,7 +331,7 @@ const Preview: React.FC<PreviewProps> = ({
           <Stack
             direction="row"
             justifyContent="flex-end"
-            alignItems="center"
+            alignItems="cen ter"
             spacing={1}
           >
             <Stack
@@ -369,7 +380,7 @@ const Preview: React.FC<PreviewProps> = ({
                   fontWeight: "bold",
                 }}
               >
-                Amount Due (PKR):
+                Amount Due {selectedCurrency}:
               </p>
             </Stack>
             <Stack
@@ -381,11 +392,11 @@ const Preview: React.FC<PreviewProps> = ({
               <p>{invoicenumber}</p>
               <p>{Invoicedate}</p>
               <p>{Invoicedue}</p>
-              <p>Rs {calculateTotal()}</p>
+              <p>{calculateTotal()}</p>
             </Stack>
           </Stack>
         </Stack>
-        {/* Displaying the invoice data in a table */}
+        {/* table */}
         <Table>
           <TableHead>
             <TableRow
@@ -535,7 +546,7 @@ const Preview: React.FC<PreviewProps> = ({
                   fontWeight: "bold",
                 }}
               >
-                Rs {calculateTotal()}
+                {calculateTotal()}
               </p>
             </Stack>
 
@@ -564,7 +575,7 @@ const Preview: React.FC<PreviewProps> = ({
                   fontWeight: "bold",
                 }}
               >
-                Rs {calculateTotal()}
+                {calculateTotal()}
               </p>
             </Stack>
             <Divider></Divider>
@@ -583,7 +594,7 @@ const Preview: React.FC<PreviewProps> = ({
                   fontWeight: "bold",
                 }}
               >
-                Amount Due(PKR):
+                Amount Due {selectedCurrency}:
               </p>
 
               <p
@@ -594,7 +605,7 @@ const Preview: React.FC<PreviewProps> = ({
                   fontWeight: "bold",
                 }}
               >
-                Rs {calculateTotal()}
+                {calculateTotal()}
               </p>
             </Stack>
           </Stack>

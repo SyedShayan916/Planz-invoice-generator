@@ -1,10 +1,10 @@
-import Invoice3 from "./Invoice3";
+import Invoice from "./components/Invoice";
 
 function App() {
   return (
     <>
       <div style={{ display: "flex", justifyContent: "center" }}>
-        <Invoice3></Invoice3>
+        <Invoice></Invoice>
       </div>
     </>
   );
